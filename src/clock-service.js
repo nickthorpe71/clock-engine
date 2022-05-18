@@ -13,7 +13,7 @@ export const countTollsInTimeSpan = (startTime, endTime) => {
     const numberOfDaysBetween = getNumberOfDaysBetween(start, end);
 
     // check if the start and end time fall on the same day
-    if (numberOfDaysBetween == 0) {
+    if (numberOfDaysBetween === 0) {
         // handle start and end time fall on same day
         return getRingsForPartialDay(start, end) + startTimeAdjust;
     }
@@ -49,13 +49,19 @@ const getNumberOfDaysBetween = (start, end) => {
     const differenceInTime = end.getTime() - start.getTime();
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
 
-    const startIsLaterThenEnd = start.getHours() > end.getHours();
+    // add a day for in the case that the start time is later than
+    // the end time and they land on separate days
+    const totalDays = start.getHours() > end.getHours()
+        ? differenceInDays + 1
+        : differenceInDays;
 
-    return startIsLaterThenEnd ? differenceInDays + 1 : differenceInDays;
+    return totalDays;
 }
 
 const getNumberOfHoursBetween = (start, end) => {
     const timeDifferenceInSeconds = (end.getTime() - start.getTime()) / 1000;
+
+    // get hours by dividing total seconds by seconds in a min * mins in an hour
     const hoursBetweenStartAndEndTimes = Math.round(timeDifferenceInSeconds / (60 * 60));
     return hoursBetweenStartAndEndTimes;
 }
@@ -63,11 +69,17 @@ const getNumberOfHoursBetween = (start, end) => {
 const getRingsForPartialDay = (start, end) => {
     const startHour = convert24HourTo12Hour(start.getHours());
     const numHoursBetween = getNumberOfHoursBetween(start, end);
+
+    // step through each hour from start time to end time
+    // accumulating the number of rings for each hour on the way
     const numberOfRings = range(1, numHoursBetween - 1)
         .map(i => convert24HourTo12Hour(i + startHour))
         .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
-    return startHour === 0 ? numberOfRings + 12 : numberOfRings;
+    // if start is midnight we will be short 12 hours
+    const adjustForStartIsMidnight = startHour === 0 ? 12 : 0;
+
+    return numberOfRings + adjustForStartIsMidnight;
 }
 
 const getRingsForMultipleWholeDays = (numberOfDays) => numberOfDays * 156;
