@@ -1,0 +1,70 @@
+.App {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 12.5rem);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  width: 25rem;
+  height: 100vh;
+  max-height: 62rem;
+}
+
+.header {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+}
+
+.sub-header {
+  font-size: 0.75rem;
+  font-family: 'Prompt', sans-serif;
+  font-weight: 400;
+}
+
+.result-container {
+  text-align: center;
+  font-size: 5rem;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 11rem;
+}
+
+.time-input {
+  border: none;
+  font-size: 0.75rem;
+  font-family: 'Prompt', sans-serif;
+  font-weight: 400;
+  height: 2.75rem;
+  padding: 0 0.65rem;
+}
+
+.time-input::placeholder {
+  color: rgba(37, 37, 46, 0.75);
+}
+
+.submit-button {
+  border: none;
+  background-color: white;
+  color: #242433;
+  font-family: 'Prompt', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  padding: 0.65rem;
+  border-radius: 0.65rem;
+}
+
+@media screen and (max-width:400px) {
+  .App {
+    width: 90%;
+    left: 5%;
+  }
+}
