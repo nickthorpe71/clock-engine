@@ -71,7 +71,6 @@ function App() {
   const landsOnEvenHour = (dateTime) => dateTime.getMinutes() === 0;
   const convertTo12Hour = (hour) => hour > 12 ? hour - 12 : hour;
   const range = (length) => [...Array(length).keys()];
-  const sumArray = (array) => array;
 
   return (
     <div className="App">
