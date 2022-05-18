@@ -3,8 +3,9 @@
 A simple utility application for clock tower technicians. 
 
 ## Demo
-For a convenient demo the application is hosted in S3.
-[DEMO](http://clock-engine.s3-website-us-west-2.amazonaws.com)
+Click below for a convenient demo the application hosted on S3.
+<br/>
+<a href="http://clock-engine.s3-website-us-west-2.amazonaws.com" target="_blank">DEMO</a>
 
 ## Usage
 
