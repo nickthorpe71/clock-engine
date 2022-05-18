@@ -8,14 +8,14 @@ export const countTollsInTimeSpan = (startTime, endTime) => {
 
     // check edge case where the start time has 0 minutes
     // and we need to ring for the start time
-    const startTimeAdjust = hasZeroMinutes(start) ? convert24HourTo12Hour(start.getHours()) : 0;
+    const numberOfStartTimeRings = hasZeroMinutes(start) ? convert24HourTo12Hour(start.getHours()) : 0;
 
     const numberOfDaysBetween = getNumberOfDaysBetween(start, end);
 
     // check if the start and end time fall on the same day
     if (numberOfDaysBetween === 0) {
         // handle start and end time fall on same day
-        return getRingsForPartialDay(start, end) + startTimeAdjust;
+        return getRingsForPartialDay(start, end) + numberOfStartTimeRings;
     }
     else {
         // handle start and end time fall on different days
@@ -27,20 +27,20 @@ export const countTollsInTimeSpan = (startTime, endTime) => {
         // get the end time of the first day
         const midnightOfTheFirstDay = new Date(cloneOfStart.setHours(24, 0, 0, 0));
 
-        // get the beginning time of the final day
-        const oneMinIntoFinalDay = new Date(cloneOfEnd.setHours(0, 0, 0, 0));
+        // get the beginning time of the last day
+        const beginningOfLastDay = new Date(cloneOfEnd.setHours(0, 0, 0, 0));
 
         // find out how many rings in the first day
-        const startDayRings = getRingsForPartialDay(start, midnightOfTheFirstDay);
+        const firstDayRings = getRingsForPartialDay(start, midnightOfTheFirstDay);
 
-        // find out how many rings in the final day
-        const endDayRings = getRingsForPartialDay(oneMinIntoFinalDay, end);
+        // find out how many rings in the last day
+        const lastDayRings = getRingsForPartialDay(beginningOfLastDay, end);
 
         // total tolls for all days between (all of which would be whole)
         const inBetweenDaysRings = getRingsForMultipleWholeDays(numberOfDaysBetween - 1);
 
         // total all rings and return
-        const totalRings = startDayRings + inBetweenDaysRings + endDayRings + startTimeAdjust;
+        const totalRings = firstDayRings + inBetweenDaysRings + lastDayRings + numberOfStartTimeRings;
         return totalRings;
     }
 }
@@ -68,18 +68,18 @@ const getNumberOfHoursBetween = (start, end) => {
 
 const getRingsForPartialDay = (start, end) => {
     const startHour = convert24HourTo12Hour(start.getHours());
-    const numHoursBetween = getNumberOfHoursBetween(start, end);
+    const numberHoursBetween = getNumberOfHoursBetween(start, end);
 
     // step through each hour from start time to end time
     // accumulating the number of rings for each hour on the way
-    const numberOfRings = range(1, numHoursBetween - 1)
+    const numberOfRings = range(1, numberHoursBetween - 1)
         .map(i => convert24HourTo12Hour(i + startHour))
         .reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
-    // if start is midnight we will be short 12 hours
-    const adjustForStartIsMidnight = startHour === 0 ? 12 : 0;
+    // if start is midnight we need to add 12 hours
+    const numberOfMidnightRings = startHour === 0 ? 12 : 0;
 
-    return numberOfRings + adjustForStartIsMidnight;
+    return numberOfRings + numberOfMidnightRings;
 }
 
 const getRingsForMultipleWholeDays = (numberOfDays) => numberOfDays * 156;
