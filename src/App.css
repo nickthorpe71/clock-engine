@@ -28,10 +28,15 @@
 
 .result-container {
   text-align: center;
-  font-size: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 3rem;
+  height: 20rem;
+  overflow-wrap: break-word;
 }
 
-.control-panel {
+.time-select-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,7 +53,7 @@
 }
 
 .time-input::placeholder {
-  color: rgba(37, 37, 46, 0.75);
+  color: rgba(37, 37, 46, 0.5);
 }
 
 .submit-button {
