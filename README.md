@@ -4,7 +4,7 @@ A simple utility application for clock tower technicians.
 
 ## Demo
 For a convenient demo the application is hosted in S3.
-[DEMO]()
+[DEMO](http://clock-engine.s3-website-us-west-2.amazonaws.com)
 
 ## Usage
 
